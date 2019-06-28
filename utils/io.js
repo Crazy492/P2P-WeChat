@@ -46,14 +46,16 @@ io.on('login', async (ctx, data) => {
                     server.setBroadcast(0);//单播
                     server.setTTL(128);
                     server.send(`${IP}:${group}:${username}:${base64}:应答`, port, rinfo.address)
-                    db[group][arr[1]] = {"IP":arr[0],"base64":arr[3]};
+                    db[group][arr[2]] = {"IP":arr[0],"base64":arr[3]};
+                    app._io.emit('updateList',db[group]);
                     console.log('你来了');
                     break;
                 }else{
                     console.log('不回应');
                 }
             case '应答':
-                db[group][arr[1]] = {"IP":arr[0],"base64":arr[3]};
+                db[group][arr[2]] = {"IP":arr[0],"base64":arr[3]};
+                app._io.emit('updateList',db[group]);
                 console.log('我知道你已经在了');
                 break;
         }
