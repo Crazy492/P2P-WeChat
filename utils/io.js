@@ -29,7 +29,7 @@ io.on('login', async (ctx, data) => {
         if (!flag) {
             server.setBroadcast(!0);//开启广播
             server.setTTL(128);
-            server.send(`${IP}:${group}:${username}:${base64}:广播`, port, gbIP);
+            server.send(`${IP}--${group}--${username}--${base64}--广播`, port, gbIP);
         }
         flag = 1;
     })
@@ -38,15 +38,16 @@ io.on('login', async (ctx, data) => {
             return ;
         }
         let str = String(msg);
-        let arr = str.split(':');
+        let arr = str.split('--');
         let type = arr.pop();
         switch (type) {
             case '广播':
                 if(arr[1] == group){
                     server.setBroadcast(0);//单播
                     server.setTTL(128);
-                    server.send(`${IP}:${group}:${username}:${base64}:应答`, port, rinfo.address)
+                    server.send(`${IP}--${group}--${username}--${base64}--应答`, port, rinfo.address)
                     db[group][arr[2]] = {"IP":arr[0],"base64":arr[3]};
+                    console.log(db[group][arr[2]])
                     app._io.emit('updateList',db[group]);
                     console.log('你来了');
                     break;

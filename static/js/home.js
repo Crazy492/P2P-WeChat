@@ -34,6 +34,7 @@ socket.on('updateList',async (data)=>{
     for(let i=0; i< newArr.length ; i++){
         let div = document.createElement("div");
         let base64 = data[newArr[i]].base64
+        console.log(base64,'aaaaa')
         document.querySelector('.side-wrap').appendChild(div);
         div.innerHTML=`
         <img src=${base64} style="width: 50px;height: 50px;">
