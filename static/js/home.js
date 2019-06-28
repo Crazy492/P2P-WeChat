@@ -5,6 +5,7 @@ var username = document.querySelector(".side-username").innerHTML
 var group = document.querySelector(".side-group").innerHTML
 var base64 = document.querySelector(".avator").src
 var IP = document.querySelector('.IP').innerHTML
+var content = document.querySelector('.content');
 var aimIP = '';
 
 function upDate(data) {
@@ -42,7 +43,8 @@ function upDate(data) {
         aDiv[i].onclick = function () {
             aimIP = aDiv[i].classList.item(0);
             let title = document.querySelector('.header');
-
+            let shadow = document.querySelector('.content-shadow')
+            shadow.style.display = "none";
             title.innerHTML = newArr[i];
         }
     }
@@ -63,19 +65,17 @@ socket.on('smexit', (data) => {
     upDate(data);
 })
 socket.on('msgRec',data => {
-    let content = document.querySelector('.content');
     let receiveHtml = document.createElement('div');
     receiveHtml.className = 'receive'
     receiveHtml.innerHTML = `
         <div class="receive-msg">${data.msg}</div>
         <img  class="receive-avator" src="${data.base64}" alt="">
     `
-    content.appendChild(sendHtml)
+    content.appendChild(receiveHtml)
 })
 let btn = document.querySelector('.content-button');
 btn.onclick = function(){
     let msg = document.querySelector('.content-textarea').value;
-    let content = document.querySelector('.content');
     let sendHtml = document.createElement('div');
     sendHtml.className = 'send'
     sendHtml.innerHTML = `

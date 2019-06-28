@@ -95,6 +95,26 @@ body{
   right: 0;
   top: 0;
 }
+.content{
+  width: 720px;
+  height: 570px;
+  position: absolute;
+  top: 50px;
+  right: 0;
+  overflow-y:scroll;
+}
+.content-shadow{
+  width: 720px;
+  height: 570px;
+  position: absolute;
+  z-index: 10;
+  right: 0;
+  text-align: center;
+  line-height: 570px;
+  color: rgb(173, 198, 221);
+  background-color: rgb(238, 238, 238);
+  top: 50px;
+}
 .header{
   color: #24272c;
   height: 50px;
@@ -200,6 +220,7 @@ body{
   height: 70px;
   display: flex;
   width: 100%;
+  justify-content: flex-start;
   box-sizing: border-box;
   align-items: center;
 }
