@@ -68,8 +68,8 @@ socket.on('msgRec',data => {
     let receiveHtml = document.createElement('div');
     receiveHtml.className = 'receive'
     receiveHtml.innerHTML = `
-        <div class="receive-msg">${data.msg}</div>
         <img  class="receive-avator" src="${data.base64}" alt="">
+        <div class="receive-msg">${data.msg}</div>
     `
     content.appendChild(receiveHtml)
 })
@@ -92,3 +92,8 @@ btn.onclick = function(){
     });
     console.log(msg,aimIP,IP);
 }
+socket.on('disconnect',async ()=>{
+    console.log('aaaa');
+    
+    socket.emit('goodbye');
+})
