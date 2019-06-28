@@ -21,19 +21,20 @@ router.get('/',async ctx=>{
 router.post('/login',async ctx=>{
   let { username,group,base64,IP } =  ctx.request.body
   console.log(IP,'123123123')
-  ctx.session.user = {
+  ctx.user = {
     username,group,base64,IP
   }
-  ctx.redirect('/home');
+  // ctx.redirect('/home');
+  await ctx.render("home", { username,group,base64,IP});
 })
 
 router.get('/home',async ctx => {
   
-  if (ctx.session.user == undefined) {
-    ctx.redirect("/");
-    return;
-  }
-  let { username,group,base64,IP } = ctx.session.user;
+  // if (ctx.user == undefined) {
+  //   ctx.redirect("/");
+  //   return;
+  // }
+  let { username,group,base64,IP } = ctx.user;
   await ctx.render("home", { username,group,base64,IP});
 })
 module.exports = router
