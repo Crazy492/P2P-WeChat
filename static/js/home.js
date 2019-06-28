@@ -28,12 +28,8 @@ function upDate(data) {
     for (let i = 0; i < newArr.length; i++) {
         let div = document.createElement("div");
         let base64 = data[newArr[i]].base64
-<<<<<<< HEAD
-        console.log(base64,'aaaaa')
-=======
         let IP = data[newArr[i]].IP
         div.className = IP + " person";
->>>>>>> f1a3097fc4a1c4748b368ca24fc9f7f3182421bd
         document.querySelector('.side-wrap').appendChild(div);
         div.innerHTML = `
         <img src=${base64} style="width: 50px;height: 50px;">
@@ -67,15 +63,32 @@ socket.on('smexit', (data) => {
     upDate(data);
 })
 socket.on('msgRec',data => {
-    console.log(data)
+    let content = document.querySelector('.content');
+    let receiveHtml = document.createElement('div');
+    receiveHtml.className = 'receive'
+    receiveHtml.innerHTML = `
+        <div class="receive-msg">${data.msg}</div>
+        <img  class="receive-avator" src="${data.base64}" alt="">
+    `
+    content.appendChild(sendHtml)
 })
 let btn = document.querySelector('.content-button');
 btn.onclick = function(){
     let msg = document.querySelector('.content-textarea').value;
+    let content = document.querySelector('.content');
+    let sendHtml = document.createElement('div');
+    sendHtml.className = 'send'
+    sendHtml.innerHTML = `
+        <div class="send-msg">${msg}</div>
+        <img  class="send-avator" src="${base64}" alt="">
+    `
+    content.appendChild(sendHtml)
+    console.log(content)
     socket.emit('toPerson', {
         msg,
         aimIP,
-        IP
+        IP,
+        base64
     });
     console.log(msg,aimIP,IP);
 }

@@ -65,7 +65,7 @@ io.on('login', async (ctx, data) => {
                 break;
             case '私聊':
                 console.log(`${arr[0]}:${arr[1]}`,'12312312')
-                app._io.emit('msgRec',`${arr[0]}:${arr[1]}`);
+                app._io.emit('msgRec',{"IP":arr[0],"msg":arr[1],"base64":arr[2]});
                 break;
         }
         console.log(`receive message from ${rinfo.address}:${rinfo.port}：${msg}`);
@@ -78,15 +78,15 @@ io.on('login', async (ctx, data) => {
         console.log(`${group}--${username}--退出a `);
         server.close();
     })
+    
+    io.on('toPerson',async (ctx,data)=>{
+        console.log('我要跟他聊天啊',data);
+        let { aimIP, msg, IP,base64} = data;
+        server.setBroadcast(0);//开启广播
+        server.setTTL(128);
+        server.send(`${IP}--${msg}--${base64}--私聊`, port, aimIP);
 })
-io.on('toPerson',async (ctx,data)=>{
-    console.log('我要跟他聊天啊',data);
-    let { aimIP, msg, IP} = data;
-    server.setBroadcast(0);//开启广播
-    server.setTTL(128);
-    server.send(`${IP}--${msg}--私聊`, port, aimIP);
 })
-
 
 let app = undefined;
 

@@ -172,3 +172,51 @@ body{
   text-align: center;
   box-sizing: border-box;
 }
+.send{
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+}
+.send-avator{
+  width: 40px;
+  height: 40px;
+  margin-right: 50px;
+}
+.send-msg{
+  font-size: 16px;
+  color: #000;
+  background: rgb(152, 225, 101);
+  border-left:10px solid rgb(152, 225, 101); 
+  border-right:10px solid rgb(152, 225, 101); 
+  border-radius: 5px;
+  height: 40px;
+  line-height: 40px;
+  display: inline-block;
+  margin-right: 15px;
+}
+.receive{
+  height: 70px;
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+}
+.receive-avator{
+  width: 40px;
+  height: 40px;
+  margin-left: 50px;
+}
+.receive-msg{
+  font-size: 16px;
+  color: #000;
+  background: rgb(152, 225, 101);
+  border-left:10px solid rgb(152, 225, 101); 
+  border-right:10px solid rgb(152, 225, 101); 
+  border-radius: 5px;
+  height: 40px;
+  line-height: 40px;
+  display: inline-block;
+  margin-left: 15px;
+}
