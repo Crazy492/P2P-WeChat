@@ -18,11 +18,3 @@ app.listen('8060',ctx=>{
   console.log('Server start in 8060')
 })
 
-router.use('', require('./routes/index.js'))
-app.use(router.routes())
-app.use(router.allowedMethods())
-app.use(static('./static'))
-
-app.listen(8060, () => {
-  console.log(`监听8060-----------`);
-})
