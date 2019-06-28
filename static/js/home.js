@@ -94,6 +94,8 @@ btn.onclick = function(){
     `
     content.appendChild(sendHtml)
     console.log(content)
+    
+    document.querySelector('.content-textarea').value='';
     socket.emit('toPerson', {
         msg,
         aimIP,
@@ -108,3 +110,16 @@ socket.on('disconnect',async ()=>{
     
     // socket.emit('goodbye');
 })
+// let keydown = (e)=>{
+//     alert(123);
+//     if(e.keyCode == 13){
+//         btn.click();
+//     }
+// }
+
+document.querySelector('.content-textarea').onkeydown=(e)=>{
+        
+    if(e.keyCode == 13){
+        btn.click();
+    }
+};
