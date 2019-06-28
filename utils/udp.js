@@ -4,7 +4,7 @@ const server = dgram.createSocket('udp4');
 let flag = 0 //是否是第一次
 let arr = [];
 const port = 8060;
-
+//safas
 server.on('close',()=>{
     server.setBroadcast(!0);//开启广播
     server.setTTL(128);
