@@ -34,29 +34,28 @@ io.on('login', async (ctx, data) => {
         flag = 1;
     })
     server.on('message', (msg, rinfo) => {
-        if(rinfo.address == IP){
-            return ;
+        if (rinfo.address == IP) {
+            return;
         }
         let str = String(msg);
         let arr = str.split('--');
         let type = arr.pop();
         switch (type) {
             case '广播':
-                if(arr[1] == group){
+                if (arr[1] == group) {
                     server.setBroadcast(0);//单播
                     server.setTTL(128);
                     server.send(`${IP}--${group}--${username}--${base64}--应答`, port, rinfo.address)
-                    db[group][arr[2]] = {"IP":arr[0],"base64":arr[3]};
-                    console.log(db[group][arr[2]])
-                    app._io.emit('updateList',db[group]);
+                    db[group][arr[2]] = { "IP": arr[0], "base64": arr[3] };
+                    app._io.emit('updateList', db[group]);
                     console.log('你来了');
                     break;
-                }else{
+                } else {
                     console.log('不回应');
                 }
             case '应答':
-                db[group][arr[2]] = {"IP":arr[0],"base64":arr[3]};
-                app._io.emit('updateList',db[group]);
+                db[group][arr[2]] = { "IP": arr[0], "base64": arr[3] };
+                app._io.emit('updateList', db[group]);
                 console.log('我知道你已经在了');
                 break;
         }
@@ -65,7 +64,11 @@ io.on('login', async (ctx, data) => {
     server.bind(port, IP);
 
 })
-
+io.on('exit', (ctx,data) => {
+    let {username,group} =data;
+    
+    console.log(data);
+})
 
 
 let app = undefined;

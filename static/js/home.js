@@ -42,3 +42,9 @@ socket.on('updateList',async (data)=>{
         `
     }
 })
+socket.on('disconnect',()=>{
+    socket.emit('exit',{
+        username,
+        group
+    })
+})
