@@ -1,0 +1,180 @@
+/*主要填写区*/
+.main-block {
+  user-select: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 27rem;
+  height: 28rem;
+  background-color: #ffffff;
+  box-shadow: 4px 2px 20px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+}
+
+.background{
+  background-image: url('../imgs/bg.jpg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+}
+body{
+  padding: 0;
+  margin: 0;
+}
+.main-logo-wrapper {
+  width: 6.5rem;
+  position: relative;
+  margin: 0 auto;
+}
+
+.main-logo {
+  width: 100%;
+  position: relative;
+  top: -3.25rem;
+  border-radius: 50%;
+}
+
+.yulan-system {
+  text-align: center;
+  font-size: 1.65rem;
+  color: #333333;
+  font-weight: normal;
+}
+
+.login-bar {
+  width: 19rem;
+  height: 3px;
+  border-radius: 50%;
+  background-color: rgb(254, 140, 130);
+  margin: 20px auto 0;
+}
+.main-info-wrapper {
+  position: relative;
+  top: -50px;
+}
+input {
+  border: none;
+  outline: none;
+}
+/*玉兰图标logo*/
+.logo {
+  display: inline-block;
+  vertical-align: middle;
+  width: 52px;
+  height: 52px;
+  background-image: url('../imgs/me.jpg');
+}
+.title {
+  margin: 0 20px;
+  /* line-height: 52px; */
+  vertical-align: middle;
+  font-family: "微软雅黑";
+}
+/*账号密码*/
+.info {
+  margin-top: 2.6rem;
+  text-align: center;
+  font-family: YouYuan;
+  font-size: 1.3rem;
+  color: #a7a7a7;
+}
+
+#info1 {
+  margin-top: 4rem;
+}
+
+/*为了加个背景色而加的块*/
+.info-content {
+  text-align: left;
+  position: relative;
+  margin: 0 auto;
+  background-color: rgb(239, 237, 236);
+  width: 327px;
+  height: 38px;
+  border-radius: 19px;
+}
+
+/*账号密码字*/
+label {
+  z-index: 1;
+  position: absolute;
+  font-style: normal;
+  left: 54px;
+  top: 10px;
+  font-size: 18px;
+}
+
+label[id="lock"] {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+/*css的Class*/
+.iactiveClass {
+  left: 16px;
+  top: -26px;
+  font-size: 16px;
+}
+
+.inputactiveClass {
+  margin-left: 36px !important;
+}
+
+/*输入框*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition-delay: 9999s !important;
+  transition: color 9999s ease-out, background-color 9999s ease-out !important;
+}
+
+.info input {
+  /* position: relative; */
+  margin-left: 78px;
+  font-size: 18px;
+  width: 200px;
+  background-color: transparent;
+}
+
+/*账号密码logo*/
+.icons-man,
+.icons-lock {
+  z-index: 1;
+  display: inline-block;
+  position: relative;
+  top: 5.5px;
+  left: 23px;
+}
+
+.icons-man {
+  width: 25px;
+  height: 27px;
+  background-image: url('../imgs/man.png');
+}
+
+.icons-lock {
+  width: 21px;
+  height: 27px;
+  background-image: url('../imgs/lock.png');
+  left: 24px;
+}
+
+/*登陆按钮部分----------------*/
+.tijiao {
+  display: block;
+  border: none;
+  user-select: none;
+  margin: 3.6rem auto 0 auto;
+  width: 327px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 20px;
+  text-align: center;
+  background-color: rgb(254, 140, 130);
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Document</title>
+        <link rel="stylesheet" href="./css/home.css">
+        <style>
+        </style>
+    </head>
+    <body >
+      <div class="background">
+        <div class="box">
+          <div class="side">
+            <div class="side-top">
+              <!-- <img src="/imgs/me.jpg" alt="">
+              <span class="side-username">啦啦啦</span>
+              <span class="side-group">英雄联盟<span> -->
+              <img class="avator" src=<%= base64 %> alt="">
+              <span class="side-username"><%= username %></span>
+              <span class="side-group"><%= group %></span>
+              <span class="IP" style="color:red"><%= IP %></span>
+              <p>在线人数：<span class="number"></span></p>
+            </div>
+            <div class="side-broadcast">
+              <span style="color:white ;font-size:12px">To 所有人 :</span></br>
+              <input type="text" name="newContent" id="newContent" style="width:180px ;border: 0px;border-radius:10px;margin-top: 10px;height: 20px"/>
+              <button id="btn">发送</button>
+            </div>
+            <div class="side-wrap"></div>
+          </div>
+
+          <div class="content-wrap">
+            <div class="header">啦啦啦</div>
+            <div class="line"></div>
+            <div class="content"></div>
+            <div class="content-bottom">
+              <div class="file"></div>
+              <textarea type="text" class="content-textarea" autofocus ></textarea>
+              <div class="lastLine">
+                <span class="bottom-span">按下Ctrl+Enter换行</span>
+                <div class="content-button">发送</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="/socket.io/socket.io.js"></script>
+      <script type="text/javascript">
+            // var socket = io('http://192.168.43.134:8881');
+            
+            var socket = io('http://127.0.0.1:8881');
+            var username = document.querySelector(".side-username").innerHTML
+            var group = document.querySelector(".side-group").innerHTML
+            var base64 = document.querySelector(".avator").src
+            var IP = document.querySelector('.IP').innerHTML
+            // 客户端登录（让服务器保存用户信息，并回写相关数据）
+            socket.on('connect', async function(){
+              console.log("I'm IN")
+              await socket.emit('login',{
+                username,group,base64,IP
+              });
+          });
+      </script>
+      <script src="/js/socket.js"></script>
+    </body>
+</html>
