@@ -4,9 +4,13 @@ const path = require('path');//当前路径
 const static = require('koa-static');
 const bodyParser = require('koa-bodyparser');
 const router = require('./routers/index');
+const {io,getApp} = require('./utils/io');
+
 
 let app = new Koa();
 
+getApp(app);
+io.attach(app);
 app.use(views('views',{extension:'ejs'}));
 
 app.use(bodyParser());

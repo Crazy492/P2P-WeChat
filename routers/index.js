@@ -28,13 +28,13 @@ router.post('/login',async ctx=>{
   await ctx.render("home", { username,group,base64,IP});
 })
 
-router.get('/home',async ctx => {
+// router.get('/home',async ctx => {
   
-  // if (ctx.user == undefined) {
-  //   ctx.redirect("/");
-  //   return;
-  // }
-  let { username,group,base64,IP } = ctx.user;
-  await ctx.render("home", { username,group,base64,IP});
-})
+//   // if (ctx.user == undefined) {
+//   //   ctx.redirect("/");
+//   //   return;
+//   // }
+//   let { username,group,base64,IP } = ctx.user;
+//   await ctx.render("home", { username,group,base64,IP});
+// })
 module.exports = router
