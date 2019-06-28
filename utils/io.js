@@ -45,7 +45,8 @@ io.on('login', async (ctx, data) => {
         server.setTTL(128);
         server.send(`${group}--${username}--退出`, port, gbIP);
         console.log(`${group}--${username}--退出a `);
-        server.close();
+        db[group] = {};
+        //  server.close();
         console.log('你退出了')
     })
     server.on('message', (msg, rinfo) => {
