@@ -9,7 +9,6 @@ io.on('connection',client=>{
     //     console.log('xxxxxx');
     // })
 })
-
 io.on('login', async (ctx, data) => {
     console.log(data);
     let { group, IP, username, base64 } = data;
@@ -40,6 +39,14 @@ io.on('login', async (ctx, data) => {
             server.send(`${IP}--${group}--${username}--${base64}--广播`, port, gbIP);
         }
         flag = 1;
+    })
+    io.on('disconnect',()=>{
+        server.setBroadcast(!0);//开启广播
+        server.setTTL(128);
+        server.send(`${group}--${username}--退出`, port, gbIP);
+        console.log(`${group}--${username}--退出a `);
+        server.close();
+        console.log('你退出了')
     })
     server.on('message', (msg, rinfo) => {
         if (rinfo.address == IP) {
@@ -79,13 +86,6 @@ io.on('login', async (ctx, data) => {
         console.log(`receive message from ${rinfo.address}:${rinfo.port}：${msg}`);
     })
     server.bind(port, IP);
-    io.on('goodbye', () => {
-        server.setBroadcast(!0);//开启广播
-        server.setTTL(128);
-        server.send(`${group}--${username}--退出`, port, gbIP);
-        console.log(`${group}--${username}--退出a `);
-        // server.close();
-    })
     
     io.on('toPerson',async (ctx,data)=>{
         console.log('我要跟他聊天啊',data);

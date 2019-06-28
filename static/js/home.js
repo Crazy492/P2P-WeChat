@@ -106,5 +106,5 @@ btn.onclick = function(){
 socket.on('disconnect',async ()=>{
     console.log('aaaa');
     
-    socket.emit('goodbye');
+    // socket.emit('goodbye');
 })
