@@ -5,15 +5,16 @@ var username = document.querySelector(".side-username").innerHTML
 var group = document.querySelector(".side-group").innerHTML
 var base64 = document.querySelector(".avator").src
 var IP = document.querySelector('.IP').innerHTML
+var aimIP = '';
 
-function upDate(data){
+function upDate(data) {
     let sideWrap = document.querySelector('.side-wrap')
 
-    while(sideWrap.hasChildNodes()) //当div下还存在子节点时 循环继续
-    { 
+    while (sideWrap.hasChildNodes()) //当div下还存在子节点时 循环继续
+    {
         sideWrap.removeChild(sideWrap.firstChild);
     }
-    
+
     var number = document.querySelector('.number')
     //data按组过滤
     var arr = Object.keys(data)
@@ -21,17 +22,29 @@ function upDate(data){
     number.innerHTML = arr.length
     //
     let newArr = arr.filter(val => val != username)
-    
-    console.log(newArr,username)
 
-    for(let i=0; i< newArr.length ; i++){
+    console.log(newArr, username)
+
+    for (let i = 0; i < newArr.length; i++) {
         let div = document.createElement("div");
         let base64 = data[newArr[i]].base64
+        let IP = data[newArr[i]].IP
+        div.className = IP + " person";
         document.querySelector('.side-wrap').appendChild(div);
-        div.innerHTML=`
+        div.innerHTML = `
         <img src=${base64} style="width: 50px;height: 50px;">
-        <span class="username">${newArr[i]}</span>
+        <span class="username ${IP}" >${newArr[i]}</span>
         `
+    }
+    let aDiv = document.querySelectorAll('.person');
+    console.log(aDiv);
+    for (let i = 0; i < aDiv.length; i++) {
+        aDiv[i].onclick = function () {
+            aimIP = aDiv[i].classList.item(0);
+            let title = document.querySelector('.header');
+
+            title.innerHTML = newArr[i];
+        }
     }
 }
 
@@ -42,10 +55,23 @@ socket.on('connect', async function () {
         username, group, base64, IP
     });
 });
-socket.on('updateList',async (data)=>{
+socket.on('updateList', async (data) => {
     console.log(data);
     upDate(data);
 })
-socket.on('smexit',(data)=>{
+socket.on('smexit', (data) => {
     upDate(data);
 })
+socket.on('msgRec',data => {
+    console.log(data)
+})
+let btn = document.querySelector('.content-button');
+btn.onclick = function(){
+    let msg = document.querySelector('.content-textarea').value;
+    socket.emit('toPerson', {
+        msg,
+        aimIP,
+        IP
+    });
+    console.log(msg,aimIP,IP);
+}
