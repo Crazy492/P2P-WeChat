@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link rel="stylesheet" href="./css/login.css">
+</head>
+
+<body class="background">
+    <form action="/login" method="POST" class="form">
+        <div class="main-block">
+            <div class="main-logo-wrapper">
+                <img class="main-logo"  src='./imgs/default.png' alt="">
+                <input type="file" hidden class="change-img"/>
+                <input id="base64" hidden  name="base64" type="text"/>
+                <textarea type="text" hidden name="IP" id="IP"><%= IP %></textarea>
+            </div>
+            <div class="main-info-wrapper">
+                <h1 class="yulan-system">P2P聊天系统</h1>
+                <div class="login-bar"></div>
+                <div class="info">
+                    <div class="info-content">
+                        <span class="icons-man"></span><label for="loginName">账号</label><input id="loginName"
+                            name="username" type="text">
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="info-content">
+                        <span class="icons-lock"></span><label for="group" id="lock">组别</label><input id="group"
+                            name="group" type="text">
+                    </div>
+                </div>
+                <input type="submit" class="commit tijiao" value="提交"/>
+            </div>
+        </div>
+    </form>
+    <script src="./js/login.js"></script>
+</body>
+
+</html>

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Crazy492/P2P-WeChat#readme",
   "devDependencies": {
+    "ejs": "^2.6.2",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
