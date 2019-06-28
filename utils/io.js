@@ -29,11 +29,14 @@ io.on('login', async (ctx, data) => {
         if (!flag) {
             server.setBroadcast(!0);//开启广播
             server.setTTL(128);
-            server.send(`${IP}:${db}:${group}:${username}:${base64}:广播`, port, gbIP);
+            server.send(`${IP}:${group}:${username}:${base64}:广播`, port, gbIP);
         }
         flag = 1;
     })
     server.on('message', (msg, rinfo) => {
+        if(rinfo.address == IP){
+            return ;
+        }
         let str = String(msg);
         let arr = str.split(':');
         let type = arr.pop();
