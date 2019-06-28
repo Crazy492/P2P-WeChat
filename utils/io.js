@@ -1,6 +1,14 @@
 let db = require('./database');
 const IO = require('koa-socket');
 let io = new IO();
+// let app = undefined;
+
+io.on('connection',client=>{
+    console.log('yyyyyy');
+    // client.on('disconnect',()=>{
+    //     console.log('xxxxxx');
+    // })
+})
 
 io.on('login', async (ctx, data) => {
     console.log(data);
@@ -71,7 +79,7 @@ io.on('login', async (ctx, data) => {
         console.log(`receive message from ${rinfo.address}:${rinfo.port}：${msg}`);
     })
     server.bind(port, IP);
-    ctx.socket.on('disconnect', () => {
+    io.on('goodbye', () => {
         server.setBroadcast(!0);//开启广播
         server.setTTL(128);
         server.send(`${group}--${username}--退出`, port, gbIP);
@@ -88,7 +96,7 @@ io.on('login', async (ctx, data) => {
 })
 })
 
-let app = undefined;
+
 
 module.exports = {
     io,

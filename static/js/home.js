@@ -103,3 +103,8 @@ btn.onclick = function(){
     });
     console.log(msg,aimIP,IP);
 }
+socket.on('disconnect',async ()=>{
+    console.log('aaaa');
+    
+    socket.emit('goodbye');
+})
