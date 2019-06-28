@@ -60,18 +60,18 @@ io.on('login', async (ctx, data) => {
                 break;
             case '退出':
                 console.log('退出了');
+                delete db[arr[0]][arr[1]];
+                io.emit('smexit',db[arr[0]]);
                 break;
         }
         console.log(`receive message from ${rinfo.address}:${rinfo.port}：${msg}`);
     })
     server.bind(port, IP);
-    io.on('exit', (ctx, data) => {
-        let { username, group } = data;
+    ctx.socket.on('disconnect', () => {
         server.setBroadcast(!0);//开启广播
         server.setTTL(128);
-        console.log(base64);
         server.send(`${group}--${username}--退出`, port, gbIP);
-        console.log(data);
+        console.log(`${group}--${username}--退出a `);
     })
 })
 

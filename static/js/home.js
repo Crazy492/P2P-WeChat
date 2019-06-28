@@ -5,15 +5,8 @@ var username = document.querySelector(".side-username").innerHTML
 var group = document.querySelector(".side-group").innerHTML
 var base64 = document.querySelector(".avator").src
 var IP = document.querySelector('.IP').innerHTML
-// 客户端登录（让服务器保存用户信息，并回写相关数据）
-socket.on('connect', async function () {
-    console.log("I'm IN")
-    await socket.emit('login', {
-        username, group, base64, IP
-    });
-});
-socket.on('updateList',async (data)=>{
-    console.log(data);
+
+function upDate(data){
     let sideWrap = document.querySelector('.side-wrap')
 
     while(sideWrap.hasChildNodes()) //当div下还存在子节点时 循环继续
@@ -41,10 +34,19 @@ socket.on('updateList',async (data)=>{
         <span class="username">${newArr[i]}</span>
         `
     }
+}
+
+// 客户端登录（让服务器保存用户信息，并回写相关数据）
+socket.on('connect', async function () {
+    console.log("I'm IN")
+    await socket.emit('login', {
+        username, group, base64, IP
+    });
+});
+socket.on('updateList',async (data)=>{
+    console.log(data);
+    upDate(data);
 })
-socket.on('disconnect',()=>{
-    socket.emit('exit',{
-        username,
-        group
-    })
+socket.on('smexit',(data)=>{
+    upDate(data);
 })
