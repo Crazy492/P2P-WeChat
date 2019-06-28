@@ -61,7 +61,7 @@ io.on('login', async (ctx, data) => {
             case '退出':
                 console.log('退出了');
                 delete db[arr[0]][arr[1]];
-                io.emit('smexit',db[arr[0]]);
+                app._io.emit('smexit',db[arr[0]]);
                 break;
         }
         console.log(`receive message from ${rinfo.address}:${rinfo.port}：${msg}`);
