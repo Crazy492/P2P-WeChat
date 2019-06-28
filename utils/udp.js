@@ -1,3 +1,4 @@
+
 const dgram = require('dgram');
 const server = dgram.createSocket('udp4');
 let flag = 0 //是否是第一次

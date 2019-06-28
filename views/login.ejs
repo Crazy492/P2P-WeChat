@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+    <form action="/choose" method="POST">
+        <div class="main-block">
+            <div class="main-logo-wrapper">
+                <img class="main-logo" src="assets/me.jpg" alt="">
+            </div>
+            <div class="main-info-wrapper">
+                <h1 class="yulan-system">P2P聊天系统</h1>
+                <div class="login-bar"></div>
+                <div class="info">
+                    <div class="info-content">
+                        <span class="icons-man"></span><label for="loginName">账号</label><input id="loginName"
+                            name="username" type="text">
+                    </div>
+                </div>
+                <div class="info">
+                    <div class="info-content">
+                        <span class="icons-lock"></span><label for="password" id="lock">密码</label><input id="password"
+                            name="password" type="password">
+                    </div>
+                </div>
+                <button class="tijiao">登录</button>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>
