@@ -55,6 +55,7 @@ io.on('login', async (ctx, data) => {
                 }
             case '应答':
                 db[group][arr[1]] = {"IP":arr[0],"base64":arr[3]};
+                app._io.emit('updateList',db[group]);
                 console.log('我知道你已经在了');
                 break;
         }
