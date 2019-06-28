@@ -7,8 +7,9 @@ var base64 = document.querySelector(".avator").src
 var IP = document.querySelector('.IP').innerHTML
 var content = document.querySelector('.content');
 var aimIP = '';
+var whoSendME = 
 
-function upDate(data) {
+this.upDate = (data)=>{
     let sideWrap = document.querySelector('.side-wrap')
 
     while (sideWrap.hasChildNodes()) //当div下还存在子节点时 循环继续
@@ -42,6 +43,7 @@ function upDate(data) {
     for (let i = 0; i < aDiv.length; i++) {
         aDiv[i].onclick = function () {
             aimIP = aDiv[i].classList.item(0);
+            aDiv[i].classList.remove('toRed')
             let title = document.querySelector('.header');
             let shadow = document.querySelector('.content-shadow')
             shadow.style.display = "none";
@@ -59,17 +61,25 @@ socket.on('connect', async function () {
 });
 socket.on('updateList', async (data) => {
     console.log(data);
+    // console.log(this.upDate)
     upDate(data);
 })
 socket.on('smexit', (data) => {
     upDate(data);
 })
 socket.on('msgRec',data => {
+    let aDiv = document.querySelectorAll('.person');
+    console.log(data.IP,aDiv[0].classList.item(0))
+    for(let i = 0; i < aDiv.length ; i++){
+        if(data.IP == aDiv[i].classList.item(0)){
+            aDiv[i].classList.add('toRed')
+        }
+    }
     let receiveHtml = document.createElement('div');
     receiveHtml.className = 'receive'
     receiveHtml.innerHTML = `
-        <div class="receive-msg">${data.msg}</div>
         <img  class="receive-avator" src="${data.base64}" alt="">
+        <div class="receive-msg">${data.msg}</div>
     `
     content.appendChild(receiveHtml)
 })
@@ -88,7 +98,8 @@ btn.onclick = function(){
         msg,
         aimIP,
         IP,
-        base64
+        base64,
+        username
     });
     console.log(msg,aimIP,IP);
 }
