@@ -12,3 +12,6 @@ socket.on('connect', async function () {
         username, group, base64, IP
     });
 });
+socket.on('updateList',async (data)=>{
+    console.log(data);
+})
