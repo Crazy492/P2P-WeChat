@@ -7,9 +7,11 @@ var base64 = document.querySelector(".avator").src
 var IP = document.querySelector('.IP').innerHTML
 var content = document.querySelector('.content');
 var aimIP = '';
-var whoSendME = 
+var msgStore = {
 
-this.upDate = (data)=>{
+};
+
+this.upDate = (data) => {
     let sideWrap = document.querySelector('.side-wrap')
 
     while (sideWrap.hasChildNodes()) //当div下还存在子节点时 循环继续
@@ -31,6 +33,7 @@ this.upDate = (data)=>{
         let div = document.createElement("div");
         let base64 = data[newArr[i]].base64
         let IP = data[newArr[i]].IP
+        msgStore[IP] = '';
         div.className = IP + " person";
         document.querySelector('.side-wrap').appendChild(div);
         div.innerHTML = `
@@ -44,11 +47,10 @@ this.upDate = (data)=>{
         aDiv[i].onclick = function () {
             let title = document.querySelector('.header');
             let shadow = document.querySelector('.content-shadow')
-            if( shadow.style.display == "none" &&
-                aimIP != aDiv[i].classList.item(0)){
-                content.innerHTML = ''
-            }
             aimIP = aDiv[i].classList.item(0);
+
+            content.innerHTML = msgStore[aimIP]
+
             aDiv[i].classList.remove('toRed')
             shadow.style.display = "none";
             title.innerHTML = newArr[i];
@@ -71,36 +73,54 @@ socket.on('updateList', async (data) => {
 socket.on('smexit', (data) => {
     upDate(data);
 })
-socket.on('msgRec',data => {
+socket.on('msgRec', data => {
+
     let aDiv = document.querySelectorAll('.person');
-    console.log(data.IP,aDiv[0].classList.item(0))
-    for(let i = 0; i < aDiv.length ; i++){
-        if(data.IP == aDiv[i].classList.item(0)){
+    console.log(data.IP, aDiv[0].classList.item(0))
+    let addHtml = `<div class="receive">
+    <img  class="receive-avator" src="${data.base64}" alt="">
+    <div class="receive-msg">${data.msg}</div>
+    </div>`
+    msgStore[data.IP] += addHtml;
+    for (let i = 0; i < aDiv.length; i++) {
+
+        if (data.IP == aDiv[i].classList.item(0)) {
             aDiv[i].classList.add('toRed')
         }
     }
-    let receiveHtml = document.createElement('div');
-    receiveHtml.className = 'receive'
-    receiveHtml.innerHTML = `
-        <img  class="receive-avator" src="${data.base64}" alt="">
-        <div class="receive-msg">${data.msg}</div>
-    `
-    content.appendChild(receiveHtml)
+    // let receiveHtml = document.createElement('div');
+    // receiveHtml.className = 'receive'
+    // receiveHtml.innerHTML = `
+    //     <img  class="receive-avator" src="${data.base64}" alt="">
+    //     <div class="receive-msg">${data.msg}</div>
+    // `
+    // content.appendChild(receiveHtml)
     content.scrollTop = content.scrollHeight
 })
 let btn = document.querySelector('.content-button');
-btn.onclick = function(){
+btn.onclick = function () {
     let msg = document.querySelector('.content-textarea').value;
-    let sendHtml = document.createElement('div');
-    sendHtml.className = 'send'
-    sendHtml.innerHTML = `
-        <div class="send-msg">${msg}</div>
-        <img  class="send-avator" src="${base64}" alt="">
-    `
-    content.appendChild(sendHtml)
+
+    let addHtml = `<div class="send">
+    <div class="send-msg">${msg}</div>
+    <img  class="send-avator" src="${base64}" alt="">
+    </div>`
+    msgStore[aimIP] += addHtml;
+    content.innerHTML = msgStore[aimIP];
+
+
+
+
+    // let sendHtml = document.createElement('div');
+    // sendHtml.className = 'send'
+    // sendHtml.innerHTML = `
+    //     <div class="send-msg">${msg}</div>
+    //     <img  class="send-avator" src="${base64}" alt="">
+    // `
+    // content.appendChild(sendHtml)
     console.log(content)
-    
-    document.querySelector('.content-textarea').value='';
+
+    document.querySelector('.content-textarea').value = '';
     socket.emit('toPerson', {
         msg,
         aimIP,
@@ -108,40 +128,53 @@ btn.onclick = function(){
         base64,
         username
     });
-    console.log(msg,aimIP,IP);
+    console.log(msg, aimIP, IP);
     content.scrollTop = content.scrollHeight
 
 }
-socket.on('disconnect',async ()=>{
+socket.on('disconnect', async () => {
     console.log('aaaa');
-    
+
     // socket.emit('goodbye');
 })
 
-socket.on('download',async (data)=>{
+socket.on('download', async (data) => {
     console.log(data);
-    let div = document.createElement('div');
-    div.className = 'file-box';
-    let a = document.createElement('a');
-    div.innerHTML =
-    `<img src="${data.base64}" class="receive-avator"><img>
+
+    let addHtml = `<div class="file-box">
+    <img src="${data.base64}" class="receive-avator"><img>
     <a href="${data.dlFilePath}" class="dl"> 
      <div class="file-wrap">
         <span class= "file-span">${data.fileName}</span>
     </div>
     </a>
-    `
-    content.appendChild(div)
+    </div>`
+    msgStore[data.IP] += addHtml;
+
+
+
+    // let div = document.createElement('div');
+    // div.className = 'file-box';
+    // let a = document.createElement('a');
+    // div.innerHTML =
+    //     `<img src="${data.base64}" class="receive-avator"><img>
+    // <a href="${data.dlFilePath}" class="dl"> 
+    //  <div class="file-wrap">
+    //     <span class= "file-span">${data.fileName}</span>
+    // </div>
+    // </a>
+    // `
+    // content.appendChild(div)
     content.scrollTop = content.scrollHeight
 })
 
-document.querySelector('.content-textarea').onkeydown=(e)=>{
-        
-    if(e.keyCode == 13){
+document.querySelector('.content-textarea').onkeydown = (e) => {
+
+    if (e.keyCode == 13) {
         btn.click();
     }
 };
-let toFile1 = ()=>{
+let toFile1 = () => {
     let inputF = document.querySelector('#file');
     inputF.click();
 }
@@ -160,26 +193,39 @@ let toPersonFile = () => {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             if (xhr.status == 200) {
-                let div = document.createElement('div');
-                div.className = 'file-box2';
-                let a = document.createElement('a');
-                div.innerHTML =
-                `
+
+                let addHtml = `<div class="file-box2">
                 <a href="javascript:void(0)" class="dl"> 
                  <div class="file-wrap2">
                     <span class= "file-span">${file.name}</span>
                 </div>
                 </a>
                 <img src="${base64}" class="send-avator"><img>
-                `
-                content.appendChild(div)
+                </div>`
+                msgStore[aimIP] += addHtml;
+                content.innerHTML = msgStore[aimIP];
+
+                
+                // let div = document.createElement('div');
+                // div.className = 'file-box2';
+                // let a = document.createElement('a');
+                // div.innerHTML =
+                //     `
+                // <a href="javascript:void(0)" class="dl"> 
+                //  <div class="file-wrap2">
+                //     <span class= "file-span">${file.name}</span>
+                // </div>
+                // </a>
+                // <img src="${base64}" class="send-avator"><img>
+                // `
+                // content.appendChild(div)
                 content.scrollTop = content.scrollHeight
                 //同时触发server的接受文件事件？是跟post路径不同的一个东西
                 //触发事件的时候，把要传的对象socketId和文件名一起传？
                 socket.emit('toPersonFile', {
                     fileName: file.name,
-                    aimIP:aimIP,
-                    base64:base64
+                    aimIP: aimIP,
+                    base64: base64
                 })
             } else {
                 alert('失败')
