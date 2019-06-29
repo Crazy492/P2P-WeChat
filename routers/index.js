@@ -58,7 +58,7 @@ router.all('/postFile', async ctx => {
 
 
 router.all('/downloadFile/:name', async ctx => {
-  const name = ctx.body;
+  const {name} = ctx.params;
   console.log(name);
   const dlPath = `static/upload/${name}`;
   ctx.attachment(dlPath);
