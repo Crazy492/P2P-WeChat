@@ -94,7 +94,18 @@ io.on('login', async (ctx, data) => {
         server.setBroadcast(0);//开启广播
         server.setTTL(128);
         server.send(`${IP}--${msg}--${base64}--${username}--私聊`, port, aimIP);
-})
+    })
+    io.on('toPersonFile', (ctx, data) => {
+        console.log('触发文件上传到用户的服务');
+        let { fileName } = data;
+        console.log(`'服务器拿到文件对象了,要传给${socketId}，要处理的文件名是${fileName}`);
+        let dlFilePath = `http://${IP}:${port}/downloadFile/${fileName}`;
+        app._io.emit('download', {
+            dlFilePath: dlFilePath,
+            fileName: fileName,
+        })//下载的路径
+        // app._io.emit('personMsg', `你对${name}发送了文件: ${fileName}`)
+    })
 })
 
 
