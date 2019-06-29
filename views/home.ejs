@@ -46,7 +46,10 @@
             </div>
             <div class="content-shadow">暂无最新消息</div>
             <div class="content-bottom">
-              <div class="file"></div>
+              <div class="file" onclick="toFile1()"></div>
+              <form id="form" enctype="multipart/form-data" hidden>
+                <input type="file" hidden id="file" onchange="toPersonFile()">
+              </form>
               <textarea onkeydown="keydown()"  type="text" class="content-textarea" autofocus ></textarea>
               <div class="lastLine">
                 <span class="bottom-span">按下Ctrl+Enter换行</span>

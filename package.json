@@ -27,6 +27,11 @@
     "koa-views": "^6.2.0"
   },
   "dependencies": {
-    "koa-ejs": "^4.2.0"
+    "formidable": "^1.2.1",
+    "koa-better-body": "^3.0.4",
+    "koa-body": "^4.1.0",
+    "koa-cors": "0.0.16",
+    "koa-ejs": "^4.2.0",
+    "koa-send": "^5.0.0"
   }
 }
