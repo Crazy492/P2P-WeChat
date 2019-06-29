@@ -31,15 +31,6 @@ router.post('/login',async ctx=>{
   await ctx.render("home", { username,group,base64,IP});
 })
 
-// router.get('/home',async ctx => {
-  
-//   // if (ctx.user == undefined) {
-//   //   ctx.redirect("/");
-//   //   return;
-//   // }
-//   let { username,group,base64,IP } = ctx.user;
-//   await ctx.render("home", { username,group,base64,IP});
-// })
 
 //做接口用？
 router.all('/postFile', async ctx => {
