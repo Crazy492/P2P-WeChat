@@ -275,3 +275,25 @@ body{
   display: flex;
   align-items: flex-start;
 }
+.file-box2{
+  /* background-color: pink; */
+  margin:12px 0;
+  width: 720px;
+  height: 100px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.file-wrap2{
+  width: 200px;
+  height: 100px;
+  display: inline-block;
+  background: rgb(246,246,246);
+  margin-right: 15px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-align: center;
+  border-radius: 4px;
+  box-shadow: #7E7E7E 2px 2px 2px;
+}

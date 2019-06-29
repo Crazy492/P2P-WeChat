@@ -82,6 +82,7 @@ socket.on('msgRec',data => {
         <div class="receive-msg">${data.msg}</div>
     `
     content.appendChild(receiveHtml)
+    content.scrollTop = content.scrollHeight
 })
 let btn = document.querySelector('.content-button');
 btn.onclick = function(){
@@ -104,6 +105,8 @@ btn.onclick = function(){
         username
     });
     console.log(msg,aimIP,IP);
+    content.scrollTop = content.scrollHeight
+
 }
 socket.on('disconnect',async ()=>{
     console.log('aaaa');
@@ -125,6 +128,7 @@ socket.on('download',async (data)=>{
     </a>
     `
     content.appendChild(div)
+    content.scrollTop = content.scrollHeight
 })
 
 document.querySelector('.content-textarea').onkeydown=(e)=>{
@@ -152,7 +156,20 @@ let toPersonFile = () => {
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
             if (xhr.status == 200) {
-                alert('成功')
+                let div = document.createElement('div');
+                div.className = 'file-box2';
+                let a = document.createElement('a');
+                div.innerHTML =
+                `
+                <a href="javascript:void(0)" class="dl"> 
+                 <div class="file-wrap2">
+                    <span class= "file-span">${file.name}</span>
+                </div>
+                </a>
+                <img src="${base64}" class="send-avator"><img>
+                `
+                content.appendChild(div)
+                content.scrollTop = content.scrollHeight
                 //同时触发server的接受文件事件？是跟post路径不同的一个东西
                 //触发事件的时候，把要传的对象socketId和文件名一起传？
                 socket.emit('toPersonFile', {
