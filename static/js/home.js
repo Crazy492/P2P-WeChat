@@ -110,21 +110,22 @@ socket.on('disconnect',async ()=>{
     
     // socket.emit('goodbye');
 })
-// let keydown = (e)=>{
-//     alert(123);
-//     if(e.keyCode == 13){
-//         btn.click();
-//     }
-// }
 
 socket.on('download',async (data)=>{
     console.log(data);
+    let div = document.createElement('div');
+    div.className = 'file-box';
     let a = document.createElement('a');
-    a.innerHTML = data.fileName
-    a.href = data.dlFilePath;
-    content.appendChild(a)
+    div.innerHTML =
+    `<img src="${data.base64}" class="receive-avator"><img>
+    <a href="${data.dlFilePath}" class="dl"> 
+     <div class="file-wrap">
+        <span class= "file-span">${data.fileName}</span>
+    </div>
+    </a>
+    `
+    content.appendChild(div)
 })
-
 
 document.querySelector('.content-textarea').onkeydown=(e)=>{
         
@@ -156,7 +157,8 @@ let toPersonFile = () => {
                 //触发事件的时候，把要传的对象socketId和文件名一起传？
                 socket.emit('toPersonFile', {
                     fileName: file.name,
-                    aimIP:aimIP
+                    aimIP:aimIP,
+                    base64:base64
                 })
             } else {
                 alert('失败')

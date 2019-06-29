@@ -102,6 +102,7 @@ body{
   top: 50px;
   right: 0;
   overflow-y:scroll;
+  overflow-x: hidden;
 }
 .content-shadow{
   width: 720px;
@@ -243,4 +244,34 @@ body{
 }
 .toRed{
   border: 2px solid red !important;
+}
+.dl{
+  /* width: 720px; */
+  height: 100px;
+  line-height: 100px;
+}
+.file-wrap{
+  width: 200px;
+  height: 100px;
+  display: inline-block;
+  background: rgb(246,246,246);
+  margin-left: 15px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  text-align: center;
+  border-radius: 4px;
+  box-shadow: #7E7E7E 2px 2px 2px;
+}
+.file-span{
+  color: #000;
+  font-size: 24px;
+}
+.file-box{
+  /* background-color: pink; */
+  margin:12px 0;
+  width: 720px;
+  height: 100px;
+  display: flex;
+  align-items: flex-start;
 }

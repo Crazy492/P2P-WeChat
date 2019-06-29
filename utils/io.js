@@ -88,6 +88,7 @@ io.on('login', async (ctx, data) => {
                     IP:arr[0],
                     dlFilePath: arr[1],
                     fileName: arr[2],
+                    base64:arr[3]
                 })//下载的路径
                 break;
         }
@@ -104,11 +105,11 @@ io.on('login', async (ctx, data) => {
     })
     io.on('toPersonFile', (ctx, data) => {
         console.log('触发文件上传到用户的服务');
-        let { fileName, aimIP } = data;
+        let { fileName, aimIP, base64 } = data;
         let dlFilePath = `http://${aimIP}:${port}/downloadFile/${fileName}`;
         server.setBroadcast(0);//开启广播
         server.setTTL(128);
-        server.send(`${IP}--${dlFilePath}--${fileName}--文件`, port, aimIP);
+        server.send(`${IP}--${dlFilePath}--${fileName}--${base64}--文件`, port, aimIP);
         // app._io.emit('download', {
         //     dlFilePath: dlFilePath,
         //     fileName: fileName,
