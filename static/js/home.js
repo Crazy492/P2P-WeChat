@@ -117,6 +117,11 @@ socket.on('disconnect',async ()=>{
 //     }
 // }
 
+socket.on('download',async (data)=>{
+    console.log(data);
+})
+
+
 document.querySelector('.content-textarea').onkeydown=(e)=>{
         
     if(e.keyCode == 13){
@@ -137,7 +142,7 @@ let toPersonFile = () => {
     console.log(file);
     formdata.append('f1', file);
     var xhr = new XMLHttpRequest();
-    xhr.open('post', `http://${IP}:8060/postFile`, true);
+    xhr.open('post', `http://${aimIP}:8060/postFile`, true);
     xhr.send(formdata);
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
@@ -145,9 +150,9 @@ let toPersonFile = () => {
                 alert('成功')
                 //同时触发server的接受文件事件？是跟post路径不同的一个东西
                 //触发事件的时候，把要传的对象socketId和文件名一起传？
-                // socket.emit('toPersonFile', {
-                //     fileName: file.name
-                // })
+                socket.emit('toPersonFile', {
+                    fileName: file.name
+                })
             } else {
                 alert('失败')
             }
