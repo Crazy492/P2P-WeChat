@@ -42,10 +42,14 @@ this.upDate = (data)=>{
     console.log(aDiv);
     for (let i = 0; i < aDiv.length; i++) {
         aDiv[i].onclick = function () {
-            aimIP = aDiv[i].classList.item(0);
-            aDiv[i].classList.remove('toRed')
             let title = document.querySelector('.header');
             let shadow = document.querySelector('.content-shadow')
+            if( shadow.style.display == "none" &&
+                aimIP != aDiv[i].classList.item(0)){
+                    content.innerHTML = ''
+                }
+            aimIP = aDiv[i].classList.item(0);
+            aDiv[i].classList.remove('toRed')
             shadow.style.display = "none";
             title.innerHTML = newArr[i];
         }
