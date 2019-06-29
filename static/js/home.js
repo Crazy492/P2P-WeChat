@@ -82,6 +82,7 @@ socket.on('msgRec', data => {
     <div class="receive-msg">${data.msg}</div>
     </div>`
     msgStore[data.IP] += addHtml;
+    content.innerHTML = msgStore[data.IP];
     for (let i = 0; i < aDiv.length; i++) {
 
         if (data.IP == aDiv[i].classList.item(0)) {
@@ -108,9 +109,6 @@ btn.onclick = function () {
     msgStore[aimIP] += addHtml;
     content.innerHTML = msgStore[aimIP];
 
-
-
-
     // let sendHtml = document.createElement('div');
     // sendHtml.className = 'send'
     // sendHtml.innerHTML = `
@@ -132,6 +130,30 @@ btn.onclick = function () {
     content.scrollTop = content.scrollHeight
 
 }
+
+let allbtn = document.querySelector('#allbtn');
+allbtn.onclick = function(){
+    let msg = document.getElementById('newContent').value;
+    let person = document.querySelectorAll('.person');
+    for(let i = 0; i < person.length; i++){
+        let ip = person[i].classList.item(0);
+        let addHtml = `<div class="send">
+        <div class="send-msg">${msg}</div>
+        <img  class="send-avator" src="${base64}" alt="">
+        </div>`
+        msgStore[ip] += addHtml;
+        content.innerHTML = msgStore[ip];
+        socket.emit('toPerson', {
+            msg,
+            aimIP:ip,
+            IP,
+            base64,
+            username
+        });
+    }
+    document.getElementById('newContent').value = '';
+}
+
 socket.on('disconnect', async () => {
     console.log('aaaa');
 
@@ -150,6 +172,7 @@ socket.on('download', async (data) => {
     </a>
     </div>`
     msgStore[data.IP] += addHtml;
+    content.innerHTML = msgStore[data.IP];
 
 
 
