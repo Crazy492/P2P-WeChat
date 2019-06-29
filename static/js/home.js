@@ -123,3 +123,36 @@ document.querySelector('.content-textarea').onkeydown=(e)=>{
         btn.click();
     }
 };
+let toFile1 = ()=>{
+    let inputF = document.querySelector('#file');
+    inputF.click();
+}
+let toPersonFile = () => {
+    let formdata = new FormData();
+    let file = document.querySelector('#file').files[0];
+    // if (!file) {
+    //     alert('请先选择所需上传文件');
+    //     return;
+    // }
+    console.log(file);
+    formdata.append('f1', file);
+    var xhr = new XMLHttpRequest();
+    xhr.open('post', `http://${IP}:8060/postFile`, true);
+    xhr.send(formdata);
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+                alert('成功')
+                //同时触发server的接受文件事件？是跟post路径不同的一个东西
+                //触发事件的时候，把要传的对象socketId和文件名一起传？
+                // socket.emit('toPersonFile', {
+                //     fileName: file.name
+                // })
+            } else {
+                alert('失败')
+            }
+        }
+    }
+    //用户虽然是传给某一个人，但实际上是上传到服务器，然后提醒对应的用户并且让他再次从服务器上下载文件?
+    //还是直接通过socket传文件？
+}
