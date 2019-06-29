@@ -82,6 +82,7 @@ socket.on('msgRec', data => {
     <div class="receive-msg">${data.msg}</div>
     </div>`
     msgStore[data.IP] += addHtml;
+    content.innerHTML = msgStore[data.IP];
     for (let i = 0; i < aDiv.length; i++) {
 
         if (data.IP == aDiv[i].classList.item(0)) {
@@ -150,7 +151,7 @@ socket.on('download', async (data) => {
     </a>
     </div>`
     msgStore[data.IP] += addHtml;
-
+    content.innerHTML = msgStore[data.IP]
 
 
     // let div = document.createElement('div');
