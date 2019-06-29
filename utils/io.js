@@ -105,8 +105,7 @@ io.on('login', async (ctx, data) => {
     io.on('toPersonFile', (ctx, data) => {
         console.log('触发文件上传到用户的服务');
         let { fileName, aimIP } = data;
-        console.log(`'服务器拿到文件对象了,要传给${socketId}，要处理的文件名是${fileName}`);
-        let dlFilePath = `http://${IP}:${port}/downloadFile/${fileName}`;
+        let dlFilePath = `http://${aimIP}:${port}/downloadFile/${fileName}`;
         server.setBroadcast(0);//开启广播
         server.setTTL(128);
         server.send(`${IP}--${dlFilePath}--${fileName}--文件`, port, aimIP);

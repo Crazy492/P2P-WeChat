@@ -119,6 +119,10 @@ socket.on('disconnect',async ()=>{
 
 socket.on('download',async (data)=>{
     console.log(data);
+    let a = document.createElement('a');
+    a.innerHTML = data.fileName
+    a.href = data.dlFilePath;
+    content.appendChild(a)
 })
 
 
