@@ -41,7 +41,7 @@ io.on('login', async (ctx, data) => {
         flag = 1;
     })
     io.on('disconnect',()=>{
-        server.setBroadcast(!0);//开启广播
+        server.setBroadcast(!0);//开启广播db[group] = {};
         server.setTTL(128);
         server.send(`${group}--${username}--退出`, port, gbIP);
         console.log(`${group}--${username}--退出a `);
