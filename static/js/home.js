@@ -46,8 +46,8 @@ this.upDate = (data)=>{
             let shadow = document.querySelector('.content-shadow')
             if( shadow.style.display == "none" &&
                 aimIP != aDiv[i].classList.item(0)){
-                    content.innerHTML = ''
-                }
+                content.innerHTML = ''
+            }
             aimIP = aDiv[i].classList.item(0);
             aDiv[i].classList.remove('toRed')
             shadow.style.display = "none";
