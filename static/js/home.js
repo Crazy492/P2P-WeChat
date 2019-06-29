@@ -151,7 +151,8 @@ let toPersonFile = () => {
                 //同时触发server的接受文件事件？是跟post路径不同的一个东西
                 //触发事件的时候，把要传的对象socketId和文件名一起传？
                 socket.emit('toPersonFile', {
-                    fileName: file.name
+                    fileName: file.name,
+                    aimIP:aimIP
                 })
             } else {
                 alert('失败')
