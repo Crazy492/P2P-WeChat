@@ -37,12 +37,16 @@ io.on('login', async (ctx, data) => {
             server.setBroadcast(!0);//开启广播
             server.setTTL(128);
             server.send(`${IP}--${group}--${username}--${base64}--广播`, port, gbIP);
+            server.send(`${IP}--${group}--${username}--${base64}--广播`, port, gbIP);
+            server.send(`${IP}--${group}--${username}--${base64}--广播`, port, gbIP);
         }
         flag = 1;
     })
     io.on('disconnect', () => {
         server.setBroadcast(!0);//开启广播
         server.setTTL(128);
+        server.send(`${group}--${username}--退出`, port, gbIP);
+        server.send(`${group}--${username}--退出`, port, gbIP);
         server.send(`${group}--${username}--退出`, port, gbIP);
         console.log(`${group}--${username}--退出a `);
         db[group] = {};
@@ -61,6 +65,8 @@ io.on('login', async (ctx, data) => {
                 if (arr[1] == group) {
                     server.setBroadcast(0);//单播
                     server.setTTL(128);
+                    server.send(`${IP}--${group}--${username}--${base64}--应答`, port, rinfo.address)
+                    server.send(`${IP}--${group}--${username}--${base64}--应答`, port, rinfo.address)
                     server.send(`${IP}--${group}--${username}--${base64}--应答`, port, rinfo.address)
                     db[group][arr[2]] = { "IP": arr[0], "base64": arr[3] };
                     app._io.emit('updateList', db[group]);
