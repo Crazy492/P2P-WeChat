@@ -3,7 +3,7 @@ const IO = require('koa-socket');
 let io = new IO();
 // let app = undefined;
 
-io.on('connection',client=>{
+io.on('connection', client => {
     console.log('yyyyyy');
     // client.on('disconnect',()=>{
     //     console.log('xxxxxx');
@@ -40,7 +40,7 @@ io.on('login', async (ctx, data) => {
         }
         flag = 1;
     })
-    io.on('disconnect',()=>{
+    io.on('disconnect', () => {
         server.setBroadcast(!0);//开启广播
         server.setTTL(128);
         server.send(`${group}--${username}--退出`, port, gbIP);
@@ -77,33 +77,43 @@ io.on('login', async (ctx, data) => {
             case '退出':
                 console.log('退出了');
                 delete db[arr[0]][arr[1]];
-                app._io.emit('smexit',db[arr[0]]);
+                app._io.emit('smexit', db[arr[0]]);
                 break;
             case '私聊':
-                console.log(`${arr[0]}:${arr[1]}`,'12312312')
-                app._io.emit('msgRec',{"IP":arr[0],"msg":arr[1],"base64":arr[2],"username":arr[3]});
+                console.log(`${arr[0]}:${arr[1]}`, '12312312')
+                app._io.emit('msgRec', { "IP": arr[0], "msg": arr[1], "base64": arr[2], "username": arr[3] });
+                break;
+            case '文件':
+                app._io.emit('download', {
+                    IP:arr[0],
+                    dlFilePath: arr[1],
+                    fileName: arr[2],
+                })//下载的路径
                 break;
         }
         console.log(`receive message from ${rinfo.address}:${rinfo.port}：${msg}`);
     })
     server.bind(port, IP);
-    
-    io.on('toPerson',async (ctx,data)=>{
-        console.log('我要跟他聊天啊',data);
-        let { aimIP, msg, IP, base64 ,username} = data;
+
+    io.on('toPerson', async (ctx, data) => {
+        console.log('我要跟他聊天啊', data);
+        let { aimIP, msg, IP, base64, username } = data;
         server.setBroadcast(0);//开启广播
         server.setTTL(128);
         server.send(`${IP}--${msg}--${base64}--${username}--私聊`, port, aimIP);
     })
     io.on('toPersonFile', (ctx, data) => {
         console.log('触发文件上传到用户的服务');
-        let { fileName } = data;
+        let { fileName, aimIP } = data;
         console.log(`'服务器拿到文件对象了,要传给${socketId}，要处理的文件名是${fileName}`);
         let dlFilePath = `http://${IP}:${port}/downloadFile/${fileName}`;
-        app._io.emit('download', {
-            dlFilePath: dlFilePath,
-            fileName: fileName,
-        })//下载的路径
+        server.setBroadcast(0);//开启广播
+        server.setTTL(128);
+        server.send(`${IP}--${dlFilePath}--${fileName}--文件`, port, aimIP);
+        // app._io.emit('download', {
+        //     dlFilePath: dlFilePath,
+        //     fileName: fileName,
+        // })//下载的路径
         // app._io.emit('personMsg', `你对${name}发送了文件: ${fileName}`)
     })
 })
