@@ -57,12 +57,12 @@ router.all('/postFile', async ctx => {
 })
 
 
-// router.all('/downloadFile/:name', async ctx => {
-//   const name = ctx.body;
-//   console.log(name);
-//   // const dlPath = `static/upload/${name}`;
-//   // ctx.attachment(dlPath);
-//   // await send(ctx, dlPath);
-// })
+router.all('/downloadFile/:name', async ctx => {
+  const name = ctx.body;
+  console.log(name);
+  const dlPath = `static/upload/${name}`;
+  ctx.attachment(dlPath);
+  await send(ctx, dlPath);
+})
 
 module.exports = router
