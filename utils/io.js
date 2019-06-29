@@ -65,19 +65,21 @@ io.on('login', async (ctx, data) => {
                     db[group][arr[2]] = { "IP": arr[0], "base64": arr[3] };
                     app._io.emit('updateList', db[group]);
                     console.log('你来了');
-                    break;
                 } else {
                     console.log('不回应');
                 }
+                break;
             case '应答':
                 db[group][arr[2]] = { "IP": arr[0], "base64": arr[3] };
                 app._io.emit('updateList', db[group]);
                 console.log('我知道你已经在了');
                 break;
             case '退出':
-                console.log('退出了');
-                delete db[arr[0]][arr[1]];
-                app._io.emit('smexit', db[arr[0]]);
+                if( arr[0] == group){
+                    console.log('退出了');
+                    delete db[arr[0]][arr[1]];
+                    app._io.emit('smexit', db[arr[0]]);
+                }
                 break;
             case '私聊':
                 console.log(`${arr[0]}:${arr[1]}`, '12312312')
