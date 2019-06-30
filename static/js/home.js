@@ -1,15 +1,16 @@
 // var socket = io('http://192.168.43.134:8881');
 
-var socket = io('http://127.0.0.1:8060');
 var username = document.querySelector(".side-username").innerHTML
 var group = document.querySelector(".side-group").innerHTML
 var base64 = document.querySelector(".avator").src
 var IP = document.querySelector('.IP').innerHTML
 var content = document.querySelector('.content');
 var aimIP = '';
-var msgStore = {
-
-};
+var socket2 = null;
+console.log(aimIP)
+var socket = io(`http://127.0.0.1:8060`);
+console.log(socket)
+var msgStore = {};
 
 this.upDate = (data) => {
     let sideWrap = document.querySelector('.side-wrap')
@@ -48,6 +49,18 @@ this.upDate = (data) => {
             let title = document.querySelector('.header');
             let shadow = document.querySelector('.content-shadow')
             aimIP = aDiv[i].classList.item(0);
+            if(socket2 != null){socket2.close();}
+            socket2 = io(`http://${aimIP}:8060`);
+            
+            socket2.on('connect', async function () {
+                console.log("I'm IN socket2")
+                await socket2.emit('login2', {
+                    username, group, base64, IP
+                });
+            });
+            
+
+            console.log(socket2)
 
             content.innerHTML = msgStore[aimIP]
 
@@ -61,10 +74,45 @@ this.upDate = (data) => {
 // 客户端登录（让服务器保存用户信息，并回写相关数据）
 socket.on('connect', async function () {
     console.log("I'm IN")
+    let socketID = socket.id;
+    console.log(socketID,'socketID')
     await socket.emit('login', {
-        username, group, base64, IP
+        username, group, base64, IP,socketID
     });
 });
+let oMsg = ""
+socket.on('msgRec', data => {
+    console.log(data.IP,'data.IP!!!!!')
+    if(data.aimIP == IP && oMsg != data.msg){
+        oMsg = data.msg
+        console.log(data,'msgRec success！')
+        let aDiv = document.querySelectorAll('.person');
+        console.log(data.IP, aDiv[0].classList.item(0))
+        let addHtml = `<div class="receive">
+        <img  class="receive-avator" src="${data.base64}" alt="">
+        <div class="receive-msg">${data.msg}</div>
+        </div>`
+        msgStore[data.IP] += addHtml;
+        content.innerHTML = msgStore[data.IP];
+        console.log(msgStore[data.IP],'ssssss')
+        for (let i = 0; i < aDiv.length; i++) {
+    
+            if (data.IP == aDiv[i].classList.item(0)) {
+                aDiv[i].classList.add('toRed')
+            }
+        }
+        // let receiveHtml = document.createElement('div');
+        // receiveHtml.className = 'receive'
+        // receiveHtml.innerHTML = `
+        //     <img  class="receive-avator" src="${data.base64}" alt="">
+        //     <div class="receive-msg">${data.msg}</div>
+        // `
+        // content.appendChild(receiveHtml)
+        content.scrollTop = content.scrollHeight
+    }else{
+        console.log(data.aimIP)
+    }
+})
 socket.on('updateList', async (data) => {
     console.log(data);
     // console.log(this.upDate)
@@ -73,35 +121,12 @@ socket.on('updateList', async (data) => {
 socket.on('smexit', (data) => {
     upDate(data);
 })
-socket.on('msgRec', data => {
 
-    let aDiv = document.querySelectorAll('.person');
-    console.log(data.IP, aDiv[0].classList.item(0))
-    let addHtml = `<div class="receive">
-    <img  class="receive-avator" src="${data.base64}" alt="">
-    <div class="receive-msg">${data.msg}</div>
-    </div>`
-    msgStore[data.IP] += addHtml;
-    content.innerHTML = msgStore[data.IP];
-    for (let i = 0; i < aDiv.length; i++) {
 
-        if (data.IP == aDiv[i].classList.item(0)) {
-            aDiv[i].classList.add('toRed')
-        }
-    }
-    // let receiveHtml = document.createElement('div');
-    // receiveHtml.className = 'receive'
-    // receiveHtml.innerHTML = `
-    //     <img  class="receive-avator" src="${data.base64}" alt="">
-    //     <div class="receive-msg">${data.msg}</div>
-    // `
-    // content.appendChild(receiveHtml)
-    content.scrollTop = content.scrollHeight
-})
 let btn = document.querySelector('.content-button');
 btn.onclick = function () {
     let msg = document.querySelector('.content-textarea').value;
-
+    console.log('aaa')
     let addHtml = `<div class="send">
     <div class="send-msg">${msg}</div>
     <img  class="send-avator" src="${base64}" alt="">
@@ -119,12 +144,14 @@ btn.onclick = function () {
     console.log(content)
 
     document.querySelector('.content-textarea').value = '';
-    socket.emit('toPerson', {
+    //*** */
+    socket2.emit('toPerson', {
         msg,
         aimIP,
         IP,
         base64,
-        username
+        username,
+        group
     });
     console.log(msg, aimIP, IP);
     content.scrollTop = content.scrollHeight
@@ -143,12 +170,13 @@ allbtn.onclick = function(){
         </div>`
         msgStore[ip] += addHtml;
         content.innerHTML = msgStore[ip];
-        socket.emit('toPerson', {
+        socket.emit('toAllPerson', {
             msg,
             aimIP:ip,
             IP,
             base64,
-            username
+            username,
+            group
         });
     }
     document.getElementById('newContent').value = '';
@@ -156,7 +184,7 @@ allbtn.onclick = function(){
 
 socket.on('disconnect', async () => {
     console.log('aaaa');
-
+    
     // socket.emit('goodbye');
 })
 
